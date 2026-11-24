@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup 0001 · Iniciar sesión</title>
+<style>
+:root{
+  --primary:#0B3D66;--primary-700:#082C4A;--accent:#F2A900;
+  --text:#1F2933;--muted:#5B6770;--bg:#F4F6F9;--card:#FFFFFF;--border:#D5DDE5;--light:#E7EEF5;
+  --error:#C62828;--error-bg:#FDECEC;--ok:#2E7D32;--ok-bg:#E8F5E9;--draft:#8A6100;--draft-bg:#FFF4D6;
+  --r:8px;--r-card:12px;--h:44px;
+  --font:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font:14px/1.45 var(--font);color:var(--text);background:#DDE3EA}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Barra y ficha del mockup (no son parte de la pantalla) ---------- */
+.mk{background:#111827;color:#E5E7EB;font-size:13px}
+.mk-bar{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;padding:10px 16px}
+.mk-title{font-weight:600;color:#fff}
+.mk-title small{font-weight:400;color:#9CA3AF;margin-left:6px}
+.mk a{color:#93C5FD}
+.mk-states{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.mk-states span{color:#9CA3AF;margin:0 2px 0 6px}
+.mk-states button{font:inherit;font-size:12px;border:1px solid #374151;background:#1F2937;color:#E5E7EB;border-radius:999px;padding:4px 10px;cursor:pointer}
+.mk-states button[aria-pressed="true"]{background:var(--accent);color:#111827;border-color:var(--accent);font-weight:600}
+.mk details{border-top:1px solid #374151}
+.mk summary{padding:8px 16px;cursor:pointer;color:#D1D5DB}
+.mk-doc{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;padding:6px 16px 18px}
+.mk-doc h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:0 0 6px}
+.mk-doc ul,.mk-doc ol{margin:0;padding-left:18px}
+.mk-doc li{margin:3px 0}
+.mk-doc p{margin:0 0 6px}
+.mk-doc table{border-collapse:collapse;width:100%}
+.mk-doc td{border-top:1px solid #374151;padding:4px 8px 4px 0;vertical-align:top}
+.frame{max-width:1440px;margin:16px auto;background:var(--bg);box-shadow:0 2px 12px rgba(0,0,0,.12)}
+
+/* ---------- Componentes del sistema de diseño ---------- */
+.btn{height:var(--h);padding:0 18px;border-radius:var(--r);font:600 14px var(--font);border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-700)}
+.btn-secondary{background:#fff;color:var(--primary);border-color:var(--primary)}
+.btn-block{width:100%}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.label{font-weight:600;font-size:13px}
+.req{color:var(--error)}
+.input{height:var(--h);border:1px solid var(--border);border-radius:var(--r);padding:0 12px;font:14px var(--font);color:var(--text);background:#fff;width:100%}
+.input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,61,102,.18)}
+.input[aria-invalid="true"]{border-color:var(--error);box-shadow:0 0 0 1px var(--error)}
+.input:disabled{background:#F7F9FB;color:var(--muted)}
+.help{font-size:12px;color:var(--muted)}
+.help.err{color:var(--error);font-weight:600}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r);font-size:13px;margin-bottom:18px}
+.alert-error{background:var(--error-bg);color:var(--error);border:1px solid #F3C4C4}
+.alert-ok{background:var(--ok-bg);color:var(--ok);border:1px solid #C8E6C9}
+.alert-draft{background:var(--draft-bg);color:var(--draft);border:1px solid #F1DFA6}
+.alert b{display:block;margin-bottom:2px}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spinner{animation:none}}
+
+/* ---------- Pantalla: inicio de sesión ---------- */
+.login{display:grid;grid-template-columns:1fr 1fr;min-height:900px}
+.hero{background:var(--primary);color:#fff;padding:40px 56px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo{width:32px;height:32px;border-radius:8px;background:var(--accent);color:var(--primary);display:grid;place-items:center;font-weight:800;font-size:13px}
+.hero h1{font-size:34px;line-height:1.2;margin:0 0 12px;max-width:440px}
+.hero-sub{color:#C9D6E3;max-width:440px;margin:0}
+.roles{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:10px;color:#DCE6F0}
+.roles li{display:flex;gap:10px;align-items:center}
+.tick{width:20px;height:20px;border-radius:50%;border:1px solid rgba(255,255,255,.45);display:grid;place-items:center;font-size:11px;flex:none}
+.hero-foot{font-size:12px;color:#9FB3C8;position:relative}
+.ring{position:absolute;right:-140px;bottom:-140px;width:460px;height:460px;border-radius:50%;border:60px solid rgba(255,255,255,.05)}
+.pane{display:flex;align-items:center;justify-content:center;padding:48px 24px}
+.box{width:100%;max-width:400px}
+.box h2{font-size:24px;margin:0 0 4px}
+.lead{color:var(--muted);margin:0 0 24px}
+.pw{position:relative}
+.pw .input{padding-right:96px}
+.pw-toggle{position:absolute;right:6px;top:6px;height:32px;border:0;background:none;color:var(--primary);font:600 13px var(--font);cursor:pointer;border-radius:6px;padding:0 10px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 0 20px;font-size:13px;flex-wrap:wrap}
+.row label{display:flex;gap:8px;align-items:center;color:var(--muted)}
+.link{color:var(--primary);background:none;border:0;padding:0;cursor:pointer;font:600 13px var(--font);text-decoration:underline;text-underline-offset:2px}
+.secure{display:flex;gap:10px;margin-top:20px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r);background:#fff;font-size:12px;color:var(--muted)}
+.rules{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:4px;font-size:13px}
+.rules .ok{color:var(--ok)}
+.rules .no{color:var(--error);font-weight:600}
+.success{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:28px;text-align:center}
+.success .big{width:56px;height:56px;border-radius:50%;background:var(--ok-bg);color:var(--ok);display:grid;place-items:center;font-size:26px;margin:0 auto 12px}
+.success p{color:var(--muted)}
+.stack{display:grid;gap:10px;margin-top:18px}
+.mobile-foot{display:none;font-size:12px;color:var(--muted);text-align:center;margin-top:24px}
+
+@media (max-width:900px){
+  .login{grid-template-columns:1fr;min-height:auto}
+  .hero{padding:20px 16px}
+  .hero h1{font-size:22px;margin:16px 0 0}
+  .hero-sub,.roles,.hero-foot,.ring{display:none}
+  .pane{padding:28px 16px 40px;align-items:flex-start}
+  .mobile-foot{display:block}
+}
+</style>
+</head>
+<body>
+
+<header class="mk">
+  <div class="mk-bar">
+    <div class="mk-title">Mockup 0001 · Iniciar sesión
+      <small>HU-01 · CU.0001 · <a href="../03-specs/0001-iniciar-sesion.md">Spec 0001</a></small>
+    </div>
+    <div class="mk-states" role="group" aria-label="Estados del mockup">
+      <span>Inicio de sesión:</span>
+      <button type="button" data-go="inicial">Inicial (vacío)</button>
+      <button type="button" data-go="cargando">Validando (carga)</button>
+      <button type="button" data-go="cedula-invalida">Cédula inválida</button>
+      <button type="button" data-go="error">Credenciales inválidas</button>
+      <button type="button" data-go="bloqueada">Cuenta bloqueada</button>
+      <button type="button" data-go="exito">Éxito</button>
+      <span>Recuperación:</span>
+      <button type="button" data-go="recuperar">Solicitar enlace</button>
+      <button type="button" data-go="enviado">Enlace enviado</button>
+      <button type="button" data-go="restablecer">Nueva contraseña (error)</button>
+    </div>
+  </div>
+  <details>
+    <summary>Ficha del mockup: objetivo, flujo, estados, componentes, responsive, interacción y aprobación</summary>
+    <div class="mk-doc">
+      <section>
+        <h3>1. Objetivo y pantalla</h3>
+        <p>Que cualquier usuario de la institución entre con su cédula y contraseña y llegue al menú de su rol. Si olvidó la contraseña, la recupera desde aquí.</p>
+        <p>Marco de escritorio 1440 × 900. Todos los roles.</p>
+      </section>
+      <section>
+        <h3>2. Flujo / navegación</h3>
+        <ol>
+          <li>Abrir la aplicación → <b>Inicial</b>.</li>
+          <li>«Iniciar sesión» → <b>Validando</b> → <b>Éxito</b> o <b>Credenciales inválidas</b>.</li>
+          <li>Éxito → menú del rol: <a href="0003-diligenciar-evaluacion.html">Estudiante (0003)</a> · <a href="0002-crear-rubrica.html">Administrador (0002)</a>.</li>
+          <li>«¿Olvidaste tu contraseña?» → <b>Solicitar enlace</b> → <b>Enlace enviado</b> → (desde el correo) <b>Nueva contraseña</b> → Inicial.</li>
+        </ol>
+      </section>
+      <section>
+        <h3>3. Estados</h3>
+        <table>
+          <tr><td>Vacío</td><td>Inicial, campos sin datos.</td></tr>
+          <tr><td>Carga</td><td>Validando: campos y botón deshabilitados.</td></tr>
+          <tr><td>Error</td><td>Cédula con formato inválido · credenciales inválidas (CA3) · cuenta bloqueada · contraseña nueva sin las reglas (CA5).</td></tr>
+          <tr><td>Éxito</td><td>Ingreso correcto (CA1, CA6) · enlace de recuperación enviado (CA4).</td></tr>
+        </table>
+      </section>
+      <section>
+        <h3>4. Componentes reutilizados</h3>
+        <ul>
+          <li>Botón principal y enlace de texto.</li>
+          <li>Campo de texto (normal, error y deshabilitado).</li>
+          <li>Campo de contraseña con «Mostrar».</li>
+          <li>Alerta de error, de éxito y aviso informativo.</li>
+          <li>Logo «ED».</li>
+        </ul>
+      </section>
+      <section>
+        <h3>5. Responsive</h3>
+        <ul>
+          <li><b>≥ 901 px:</b> dos columnas (presentación a la izquierda, formulario a la derecha).</li>
+          <li><b>≤ 900 px:</b> una columna. El panel azul queda como encabezado con el logo y el título; se ocultan la descripción y la lista de roles. El pie institucional pasa debajo del formulario.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>6. Notas de interacción</h3>
+        <ul>
+          <li>La cédula acepta solo dígitos (<code>inputmode="numeric"</code>).</li>
+          <li>La contraseña va enmascarada; «Mostrar» la revela y cambia a «Ocultar» (CA2).</li>
+          <li>El error de credenciales no dice cuál dato falló.</li>
+          <li>Los errores usan <code>role="alert"</code> y <code>aria-invalid</code>; el foco va a la alerta.</li>
+          <li>Enter envía el formulario; el botón se deshabilita mientras valida.</li>
+          <li><i>Demostración:</i> la contraseña <code>Clave#2026</code> lleva a Éxito; cualquier otra, a Credenciales inválidas.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>7. Aprobación del responsable</h3>
+        <table>
+          <tr><td>Responsable</td><td>Product Owner (Vicerrectoría Académica)</td></tr>
+          <tr><td>Estado</td><td><b>Pendiente de aprobación</b></td></tr>
+          <tr><td>Versión</td><td>1.0 · 2026-11-23</td></tr>
+          <tr><td>Observaciones</td><td>—</td></tr>
+        </table>
+      </section>
+    </div>
+  </details>
+</header>
+
+<main class="frame login">
+  <!-- Panel de presentación -->
+  <section class="hero" aria-label="Presentación del sistema">
+    <div class="brand"><span class="logo" aria-hidden="true">ED</span> Evaluación Docente</div>
+    <div>
+      <h1>Evalúa, consulta y mejora el desempeño docente</h1>
+      <p class="hero-sub">Plataforma institucional para la evaluación y el seguimiento del desempeño de los docentes.</p>
+      <ul class="roles">
+        <li><span class="tick" aria-hidden="true">✓</span>Estudiantes: evalúa a los docentes de tus asignaturas</li>
+        <li><span class="tick" aria-hidden="true">✓</span>Docentes: consulta tus resultados de forma anónima</li>
+        <li><span class="tick" aria-hidden="true">✓</span>Coordinadores: revisa reportes por periodo y dependencia</li>
+      </ul>
+    </div>
+    <div class="hero-foot">Instituto Tecnológico Metropolitano · Uso exclusivo de la comunidad institucional</div>
+    <div class="ring" aria-hidden="true"></div>
+  </section>
+
+  <section class="pane">
+    <div class="box">
+
+      <!-- Vista: formulario de inicio de sesión -->
+      <form id="login" data-state="inicial cargando cedula-invalida error bloqueada" novalidate>
+        <h2>Iniciar sesión</h2>
+        <p class="lead">Ingresa con tu número de cédula y tu contraseña.</p>
+
+        <div class="alert alert-error" role="alert" tabindex="-1" data-state="error">
+          <span aria-hidden="true">▲</span>
+          <div>Usuario o contraseña inválidos. Verifica tus datos e inténtalo de nuevo.</div>
+        </div>
+        <div class="alert alert-error" role="alert" tabindex="-1" data-state="bloqueada">
+          <span aria-hidden="true">▲</span>
+          <div><b>Tu cuenta está bloqueada temporalmente</b>Hubo varios intentos fallidos. Inténtalo de nuevo en 15 minutos o recupera tu contraseña.</div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="cedula">Número de cédula <span class="req" aria-hidden="true">*</span></label>
+          <input class="input" id="cedula" name="cedula" inputmode="numeric" autocomplete="username" required aria-describedby="cedula-help">
+          <span class="help" id="cedula-help">Solo números, sin puntos ni espacios.</span>
+        </div>
+
+        <div class="field">
+          <label class="label" for="clave">Contraseña <span class="req" aria-hidden="true">*</span></label>
+          <div class="pw">
+            <input class="input" id="clave" name="clave" type="password" autocomplete="current-password" required aria-describedby="clave-help">
+            <button type="button" class="pw-toggle" id="toggle" aria-controls="clave" aria-pressed="false">👁 Mostrar</button>
+          </div>
+          <span class="help" id="clave-help">Debe tener letras, números y al menos un signo.</span>
+        </div>
+
+        <div class="row">
+          <label><input type="checkbox"> Recordar mi cédula</label>
+          <button type="button" class="link" data-go="recuperar">¿Olvidaste tu contraseña?</button>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="enviar" type="submit">
+          <span class="spinner" data-state="cargando" aria-hidden="true"></span>
+          <span data-state="inicial cedula-invalida error bloqueada">Iniciar sesión</span>
+          <span data-state="cargando">Validando…</span>
+        </button>
+
+        <div class="secure">
+          <span aria-hidden="true">🔒</span>
+          <div>Conexión segura. Tu ingreso queda registrado en la bitácora del sistema con fecha, hora y usuario.</div>
+        </div>
+      </form>
+
+      <!-- Vista: éxito -->
+      <div class="success" data-state="exito" role="status">
+        <div class="big" aria-hidden="true">✓</div>
+        <h2>Ingreso exitoso</h2>
+        <p>Hola, Laura. Te estamos llevando al menú de tu rol.<br>
+          <small>Acceso registrado en la bitácora · 23/11/2026 · 10:41</small></p>
+        <div class="stack">
+          <a class="btn btn-primary" href="0003-diligenciar-evaluacion.html">Continuar como Estudiante</a>
+          <a class="btn btn-secondary" href="0002-crear-rubrica.html">Ver como Administrador</a>
+        </div>
+      </div>
+
+      <!-- Vista: solicitar recuperación -->
+      <form data-state="recuperar" novalidate onsubmit="event.preventDefault();go('enviado')">
+        <h2>Recuperar contraseña</h2>
+        <p class="lead">Escribe tu correo institucional y te enviaremos un enlace temporal para crear una nueva contraseña.</p>
+        <div class="field">
+          <label class="label" for="correo">Correo institucional <span class="req" aria-hidden="true">*</span></label>
+          <input class="input" id="correo" type="email" autocomplete="email" placeholder="nombre@correo.itm.edu.co" required>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Enviar enlace</button>
+        <div class="row" style="justify-content:center;margin-top:16px">
+          <button type="button" class="link" data-go="inicial">Volver a iniciar sesión</button>
+        </div>
+      </form>
+
+      <!-- Vista: enlace enviado -->
+      <div data-state="enviado">
+        <h2>Revisa tu correo</h2>
+        <div class="alert alert-ok" role="status">
+          <span aria-hidden="true">✓</span>
+          <div>Si el correo está registrado, te enviamos un enlace para crear una nueva contraseña. El enlace vence en 30 minutos y solo se puede usar una vez.</div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-block" data-go="inicial">Volver a iniciar sesión</button>
+        <p class="help" style="margin-top:14px;text-align:center">Siguiente paso en el correo → <button type="button" class="link" data-go="restablecer">ver pantalla de nueva contraseña</button></p>
+      </div>
+
+      <!-- Vista: nueva contraseña con error de reglas (CA5) -->
+      <form data-state="restablecer" novalidate onsubmit="event.preventDefault();go('inicial')">
+        <h2>Crea una nueva contraseña</h2>
+        <p class="lead">Cédula 1036458921</p>
+        <div class="alert alert-error" role="alert">
+          <span aria-hidden="true">▲</span>
+          <div>La contraseña no cumple las reglas. Revisa los puntos marcados.</div>
+        </div>
+        <div class="field">
+          <label class="label" for="nueva">Nueva contraseña <span class="req" aria-hidden="true">*</span></label>
+          <input class="input" id="nueva" type="password" value="Clave2026" aria-invalid="true" aria-describedby="reglas" autocomplete="new-password">
+        </div>
+        <ul class="rules" id="reglas" aria-label="Reglas de la contraseña">
+          <li class="ok">✓ Tiene letras</li>
+          <li class="ok">✓ Tiene números</li>
+          <li class="no">✗ Tiene al menos un signo (por ejemplo # $ % & *)</li>
+          <li class="ok">✓ Mínimo 8 caracteres <small>(por confirmar)</small></li>
+        </ul>
+        <div class="field">
+          <label class="label" for="confirma">Confirmar contraseña <span class="req" aria-hidden="true">*</span></label>
+          <input class="input" id="confirma" type="password" value="Clave2026" autocomplete="new-password">
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Guardar contraseña</button>
+      </form>
+
+      <p class="mobile-foot">Instituto Tecnológico Metropolitano · Uso exclusivo de la comunidad institucional</p>
+    </div>
+  </section>
+</main>
+
+<script>
+// Solo navegación entre estados del mockup; la lógica real está en la spec 0001.
+const presets = {
+  inicial:          {ced:'',              pw:'',            cedErr:false, pwErr:false, busy:false},
+  cargando:         {ced:'1036458921',    pw:'Clave#2026',  cedErr:false, pwErr:false, busy:true},
+  'cedula-invalida':{ced:'1.036.458.921', pw:'Clave#2026',  cedErr:true,  pwErr:false, busy:false},
+  error:            {ced:'1036458921',    pw:'Clave#2025x', cedErr:true,  pwErr:true,  busy:false},
+  bloqueada:        {ced:'1036458921',    pw:'',            cedErr:false, pwErr:false, busy:true}
+};
+const $ = s => document.querySelector(s);
+function go(state){
+  document.querySelectorAll('[data-state]').forEach(el => {
+    el.hidden = !el.dataset.state.split(' ').includes(state);
+  });
+  document.querySelectorAll('[data-go]').forEach(b => {
+    if (b.closest('.mk-states')) b.setAttribute('aria-pressed', b.dataset.go === state);
+  });
+  const p = presets[state];
+  if (p){
+    const ced = $('#cedula'), pw = $('#clave'), help = $('#cedula-help');
+    ced.value = p.ced; pw.value = p.pw;
+    ced.setAttribute('aria-invalid', p.cedErr); pw.setAttribute('aria-invalid', p.pwErr);
+    const formatErr = state === 'cedula-invalida';
+    help.textContent = formatErr ? 'La cédula solo puede tener números, sin puntos ni espacios.' : 'Solo números, sin puntos ni espacios.';
+    help.classList.toggle('err', formatErr);
+    ced.disabled = pw.disabled = state === 'cargando';
+    $('#enviar').disabled = p.busy;
+    const alert = document.querySelector(`[role="alert"][data-state="${state}"]`);
+    if (alert) alert.focus();
+  }
+  history.replaceState(null, '', '#' + state);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-go]');
+  if (b) go(b.dataset.go);
+});
+$('#toggle').addEventListener('click', e => {
+  const pw = $('#clave'), show = pw.type === 'password';
+  pw.type = show ? 'text' : 'password';
+  e.currentTarget.textContent = show ? '🙈 Ocultar' : '👁 Mostrar';
+  e.currentTarget.setAttribute('aria-pressed', show);
+});
+$('#login').addEventListener('submit', e => {
+  e.preventDefault();
+  const ced = $('#cedula').value.trim(), pw = $('#clave').value;
+  if (!/^\d+$/.test(ced)) { const keep = pw; go('cedula-invalida'); $('#cedula').value = ced; $('#clave').value = keep; return; }
+  go('cargando'); $('#cedula').value = ced;
+  setTimeout(() => go(pw === 'Clave#2026' ? 'exito' : 'error'), 1200);
+});
+go(location.hash.slice(1) in presets || ['exito','recuperar','enviado','restablecer'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'inicial');
+</script>
+</body>
+</html>

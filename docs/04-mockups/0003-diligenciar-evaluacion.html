@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup 0003 · Diligenciar evaluación</title>
+<style>
+:root{
+  --primary:#0B3D66;--primary-700:#082C4A;--accent:#F2A900;
+  --text:#1F2933;--muted:#5B6770;--bg:#F4F6F9;--card:#FFFFFF;--border:#D5DDE5;--light:#E7EEF5;
+  --error:#C62828;--error-bg:#FDECEC;--ok:#2E7D32;--ok-bg:#E8F5E9;--draft:#8A6100;--draft-bg:#FFF4D6;
+  --r:8px;--r-card:12px;--h:44px;
+  --font:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font:14px/1.45 var(--font);color:var(--text);background:#DDE3EA}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Barra y ficha del mockup ---------- */
+.mk{background:#111827;color:#E5E7EB;font-size:13px}
+.mk-bar{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;padding:10px 16px}
+.mk-title{font-weight:600;color:#fff}
+.mk-title small{font-weight:400;color:#9CA3AF;margin-left:6px}
+.mk a{color:#93C5FD}
+.mk-states{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.mk-states span{color:#9CA3AF;margin:0 2px 0 6px}
+.mk-states button{font:inherit;font-size:12px;border:1px solid #374151;background:#1F2937;color:#E5E7EB;border-radius:999px;padding:4px 10px;cursor:pointer}
+.mk-states button[aria-pressed="true"]{background:var(--accent);color:#111827;border-color:var(--accent);font-weight:600}
+.mk details{border-top:1px solid #374151}
+.mk summary{padding:8px 16px;cursor:pointer;color:#D1D5DB}
+.mk-doc{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;padding:6px 16px 18px}
+.mk-doc h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:0 0 6px}
+.mk-doc ul,.mk-doc ol{margin:0;padding-left:18px}
+.mk-doc li{margin:3px 0}
+.mk-doc p{margin:0 0 6px}
+.mk-doc table{border-collapse:collapse;width:100%}
+.mk-doc td{border-top:1px solid #374151;padding:4px 8px 4px 0;vertical-align:top}
+.frame{max-width:1440px;margin:16px auto;background:var(--bg);box-shadow:0 2px 12px rgba(0,0,0,.12);min-height:1024px}
+
+/* ---------- Componentes ---------- */
+.btn{height:var(--h);padding:0 18px;border-radius:var(--r);font:600 14px var(--font);border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-700)}
+.btn-secondary{background:#fff;color:var(--primary);border-color:var(--primary)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.label{font-weight:600;font-size:13px}
+.req{color:var(--error)}
+.input{border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;font:14px var(--font);color:var(--text);background:#fff;width:100%}
+.input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,61,102,.18)}
+.input:disabled{background:#F7F9FB}
+.help{font-size:12px;color:var(--muted)}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r);font-size:13px;margin-bottom:16px}
+.alert b{display:block;margin-bottom:2px}
+.alert-error{background:var(--error-bg);color:var(--error);border:1px solid #F3C4C4}
+.alert-ok{background:var(--ok-bg);color:var(--ok);border:1px solid #C8E6C9}
+.alert-info{background:var(--light);color:var(--primary);border:1px solid #CFDCE8}
+.alert-draft{background:var(--draft-bg);color:var(--draft);border:1px solid #F1DFA6}
+.alert a,.alert button.lnk{color:inherit;font-weight:700;background:none;border:0;padding:0;font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-card);padding:20px}
+.card h3{font-size:14px;margin:0 0 12px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.chip-ok{background:var(--ok-bg);color:var(--ok)}
+.chip-curso{background:var(--light);color:var(--primary)}
+.chip-draft{background:var(--draft-bg);color:var(--draft)}
+.chip-pend{background:#EEF1F4;color:#46525C}
+.chip-closed{background:var(--error-bg);color:var(--error)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sk{background:linear-gradient(90deg,#E9EEF3 25%,#F4F7FA 50%,#E9EEF3 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:8px}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.spinner,.sk{animation:none}}
+
+/* ---------- Estructura de la aplicación ---------- */
+.topbar{height:64px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo{width:32px;height:32px;border-radius:8px;background:var(--accent);color:var(--primary);display:grid;place-items:center;font-weight:800;font-size:13px}
+.user{display:flex;align-items:center;gap:10px;font-size:13px}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--light);color:var(--primary);display:grid;place-items:center;font-weight:700;font-size:12px}
+.shell{display:grid;grid-template-columns:260px 1fr;min-height:960px}
+.side{background:#fff;border-right:1px solid var(--border);padding:24px 16px}
+.side a{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:8px;color:var(--text);text-decoration:none;margin-bottom:4px}
+.side a:hover{background:#F2F5F8}
+.side a[aria-current="page"]{background:var(--light);color:var(--primary);font-weight:600}
+.badge{background:var(--accent);color:var(--primary);border-radius:999px;font-size:11px;font-weight:700;padding:1px 7px}
+.main{padding:32px;min-width:0}
+.crumbs{font-size:12px;color:var(--muted);margin-bottom:4px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.page-title{font-size:24px;font-weight:700;margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+.col{display:grid;gap:16px;min-width:0}
+
+/* ---------- Pantalla: evaluación ---------- */
+.teacher{display:flex;gap:14px;align-items:center}
+.teacher .avatar{width:44px;height:44px;font-size:14px}
+.teacher b{display:block;font-size:15px}
+.teacher span{color:var(--muted);font-size:13px}
+.crit{padding:16px 20px;border-bottom:1px solid #EDF1F5}
+.crit-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.crit-head h3{margin:0;font-size:14px;color:var(--primary)}
+.weight{background:var(--light);color:var(--primary);font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px}
+fieldset.item{border:0;margin:0;padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:center}
+fieldset.item legend{float:left;padding:0;font-size:13px}
+.item .err-msg{grid-column:1/2;font-size:12px;color:var(--error);font-weight:700;margin-top:-4px}
+.scale{display:flex;gap:6px}
+.scale label{position:relative}
+.scale input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.scale span{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--border);border-radius:8px;font-weight:600;font-size:13px;background:#fff;color:var(--text)}
+.scale input:hover + span{border-color:var(--primary)}
+.scale input:checked + span{background:var(--primary);border-color:var(--primary);color:#fff}
+.scale input:focus-visible + span{outline:3px solid var(--accent);outline-offset:2px}
+.scale input:disabled + span{opacity:.55}
+.item.is-error legend{color:var(--error)}
+.item.is-error .scale span{border-color:var(--error);color:var(--error)}
+.legend-scale{font-size:12px;color:var(--muted);padding:12px 20px;border-bottom:1px solid #EDF1F5;background:#FAFBFC;border-radius:var(--r-card) var(--r-card) 0 0}
+.comment{padding:16px 20px}
+.comment textarea{min-height:84px;resize:vertical;margin-top:6px}
+.count{text-align:right}
+.form-foot{display:flex;justify-content:flex-end;gap:12px;padding:16px 20px;border-top:1px solid #EDF1F5;flex-wrap:wrap}
+.rubric{padding:0}
+.progress{height:8px;border-radius:999px;background:#E6EBF0;overflow:hidden;margin:4px 0 8px}
+.progress i{display:block;height:100%;background:var(--primary);transition:width .2s}
+.grade{font-size:30px;font-weight:700;color:var(--primary)}
+.grade small{font-size:14px;color:var(--muted);font-weight:500}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.list li{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
+.anon{font-size:12px;color:var(--muted);display:flex;gap:8px}
+.done{text-align:center;padding:36px 24px}
+.done .big{width:64px;height:64px;border-radius:50%;background:var(--ok-bg);color:var(--ok);display:grid;place-items:center;font-size:30px;margin:0 auto 12px}
+.done h2{margin:0 0 6px}
+.done p{color:var(--muted);margin:0 0 16px}
+.receipt{display:inline-grid;grid-template-columns:auto auto;gap:6px 24px;text-align:left;background:#F8FAFC;border:1px dashed var(--border);border-radius:var(--r);padding:14px 18px;margin:4px 0 20px}
+.receipt dt{color:var(--muted);font-size:12px}
+.receipt dd{margin:0;font-weight:700}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+@media (max-width:1180px){
+  .grid{grid-template-columns:1fr}
+  .aside{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+}
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr}
+  .side{display:flex;overflow-x:auto;gap:4px;padding:8px 16px;border-right:0;border-bottom:1px solid var(--border)}
+  .side a{white-space:nowrap;margin:0;gap:6px}
+  .main{padding:20px 16px}
+  .user span.name{display:none}
+}
+@media (max-width:600px){
+  fieldset.item{grid-template-columns:1fr}
+  .scale{justify-content:space-between}
+  .scale span{width:44px;height:44px}
+  .crit{padding:14px 16px}
+  .form-foot .btn{flex:1}
+}
+</style>
+</head>
+<body>
+
+<header class="mk">
+  <div class="mk-bar">
+    <div class="mk-title">Mockup 0003 · Diligenciar evaluación
+      <small>HU-16 · CU.0003 · <a href="../03-specs/0003-diligenciar-evaluacion.md">Spec 0003</a></small>
+    </div>
+    <div class="mk-states" role="group" aria-label="Estados del mockup">
+      <span>Estados:</span>
+      <button type="button" data-go="cargando">Cargando</button>
+      <button type="button" data-go="diligenciando">Diligenciando</button>
+      <button type="button" data-go="error-obligatorio">Error: ítem obligatorio</button>
+      <button type="button" data-go="borrador">Borrador guardado</button>
+      <button type="button" data-go="enviando">Enviando</button>
+      <button type="button" data-go="enviada">Enviada (éxito)</button>
+      <button type="button" data-go="periodo-cerrado">Periodo cerrado</button>
+      <button type="button" data-go="ya-evaluado">Ya evaluado</button>
+    </div>
+  </div>
+  <details>
+    <summary>Ficha del mockup: objetivo, flujo, estados, componentes, responsive, interacción y aprobación</summary>
+    <div class="mk-doc">
+      <section>
+        <h3>1. Objetivo y pantalla</h3>
+        <p>Que el estudiante califique a un docente con la rúbrica vigente y envíe la evaluación, sabiendo en todo momento cuánto le falta y que su respuesta es anónima.</p>
+        <p>Marco de escritorio 1440 × 1024. Rol: Estudiante.</p>
+      </section>
+      <section>
+        <h3>2. Flujo / navegación</h3>
+        <ol>
+          <li><a href="0001-iniciar-sesion.html#exito">Inicio de sesión (0001)</a> → Evaluaciones pendientes → seleccionar docente → <b>Cargando</b> → <b>Diligenciando</b> (CA1).</li>
+          <li>«Guardar borrador» → <b>Borrador guardado</b>.</li>
+          <li>«Finalizar y enviar» → <b>Error: ítem obligatorio</b> (CA3) o <b>Enviando</b> → <b>Enviada</b> (CA2).</li>
+          <li>Enviada → «Volver a evaluaciones pendientes».</li>
+          <li>Abrir un docente con el periodo cerrado → <b>Periodo cerrado</b> (CA5); con el docente ya evaluado → <b>Ya evaluado</b> (CA4).</li>
+        </ol>
+      </section>
+      <section>
+        <h3>3. Estados</h3>
+        <table>
+          <tr><td>Carga</td><td>Esqueletos mientras llega la rúbrica.</td></tr>
+          <tr><td>Vacío / parcial</td><td>Diligenciando con ítems sin calificar.</td></tr>
+          <tr><td>Error</td><td>Ítem obligatorio sin calificar · periodo cerrado (formulario bloqueado) · docente ya evaluado.</td></tr>
+          <tr><td>Éxito</td><td>Borrador guardado · evaluación enviada con nota y comprobante.</td></tr>
+        </table>
+      </section>
+      <section>
+        <h3>4. Componentes reutilizados</h3>
+        <ul>
+          <li>Barra superior, menú lateral con contador de pendientes, migas de pan.</li>
+          <li>Tarjeta, alerta (error, información, borrador, éxito).</li>
+          <li>Opción de escala 1–5 (normal, seleccionada, error, deshabilitada).</li>
+          <li>Etiquetas de estado: En curso, Borrador, Pendiente, Evaluado.</li>
+          <li>Botón principal y secundario; barra de avance; área de texto.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>5. Responsive</h3>
+        <ul>
+          <li><b>≤ 1180 px:</b> la columna derecha (avance, nota, docentes) pasa debajo del formulario.</li>
+          <li><b>≤ 960 px:</b> el menú lateral pasa a barra horizontal.</li>
+          <li><b>≤ 600 px:</b> cada ítem muestra el texto arriba y la escala abajo, con opciones de 44 × 44 px para el dedo; los botones ocupan todo el ancho.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>6. Notas de interacción</h3>
+        <ul>
+          <li>Cada ítem es un grupo de opciones (<code>fieldset</code> + <code>legend</code>); se opera con flechas del teclado.</li>
+          <li>Avance y nota parcial se actualizan al calificar (fórmula en la spec 0003, §4.3).</li>
+          <li>Al enviar incompleto: alerta arriba con enlace «Ir al ítem», el ítem queda en rojo con «Este ítem es obligatorio» y el foco va a la alerta. El error desaparece al calificarlo.</li>
+          <li>Con el periodo cerrado, todo el formulario queda deshabilitado.</li>
+          <li>«Finalizar y enviar» se deshabilita mientras envía.</li>
+          <li>El mensaje de anonimato está siempre visible.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>7. Aprobación del responsable</h3>
+        <table>
+          <tr><td>Responsable</td><td>Product Owner (Vicerrectoría Académica)</td></tr>
+          <tr><td>Estado</td><td><b>Pendiente de aprobación</b></td></tr>
+          <tr><td>Versión</td><td>1.0 · 2026-11-23 (base: prototipo de la Actividad 4, Figura 2)</td></tr>
+          <tr><td>Observaciones</td><td>—</td></tr>
+        </table>
+      </section>
+    </div>
+  </details>
+</header>
+
+<div class="frame">
+  <header class="topbar">
+    <div class="brand"><span class="logo" aria-hidden="true">ED</span> Evaluación Docente</div>
+    <div class="user"><span class="name">Laura Gómez · Estudiante</span><span class="avatar" aria-hidden="true">LG</span></div>
+  </header>
+
+  <div class="shell">
+    <nav class="side" aria-label="Menú principal">
+      <a href="#">Inicio</a>
+      <a href="#" aria-current="page">Evaluaciones pendientes <span class="badge" aria-label="3 pendientes">3</span></a>
+      <a href="#">Comprobantes</a>
+      <a href="#">Mi perfil</a>
+      <a href="0001-iniciar-sesion.html">Cerrar sesión</a>
+    </nav>
+
+    <main class="main">
+      <div class="head">
+        <div>
+          <div class="crumbs">Inicio › Evaluaciones pendientes › Evaluar docente</div>
+          <h1 class="page-title">Evaluación del docente</h1>
+        </div>
+        <span class="chip chip-ok" data-state="cargando diligenciando error-obligatorio borrador enviando enviada ya-evaluado"><span class="dot"></span>Periodo 2026-2 abierto · cierra el 28 de noviembre</span>
+        <span class="chip chip-closed" data-state="periodo-cerrado"><span class="dot"></span>Periodo 2026-2 cerrado</span>
+      </div>
+
+      <div class="grid">
+        <!-- ======== Columna principal ======== -->
+        <div class="col">
+
+          <!-- Cargando -->
+          <div data-state="cargando" aria-busy="true" aria-label="Cargando la rúbrica" class="col">
+            <div class="card"><div class="sk" style="height:44px;width:60%"></div></div>
+            <div class="card"><div class="sk" style="height:18px;width:40%;margin-bottom:16px"></div><div class="sk" style="height:36px;margin-bottom:10px"></div><div class="sk" style="height:36px;margin-bottom:10px"></div><div class="sk" style="height:36px"></div></div>
+          </div>
+
+          <!-- Ficha del docente -->
+          <div class="card teacher" data-state="diligenciando error-obligatorio borrador enviando periodo-cerrado ya-evaluado">
+            <span class="avatar" aria-hidden="true">CR</span>
+            <div><b>Carlos Restrepo Mejía</b><span>Bases de Datos II · Grupo 03 · Rúbrica: Evaluación docente 2026-2</span></div>
+          </div>
+
+          <!-- Alertas -->
+          <div class="alert alert-error" role="alert" tabindex="-1" data-state="error-obligatorio" id="alert-missing">
+            <span aria-hidden="true">▲</span>
+            <div><b id="missing-txt">Hay 1 ítem obligatorio sin calificar</b>Complétalo para poder enviar la evaluación. <button type="button" class="lnk" id="goto-missing">Ir al ítem</button></div>
+          </div>
+          <div class="alert alert-draft" role="status" tabindex="-1" data-state="borrador">
+            <span aria-hidden="true">✎</span>
+            <div><b>Borrador guardado a las 10:42</b>Puedes retomarlo desde Evaluaciones pendientes hasta el 28 de noviembre.</div>
+          </div>
+          <div class="alert alert-error" role="alert" tabindex="-1" data-state="periodo-cerrado">
+            <span aria-hidden="true">🔒</span>
+            <div><b>El periodo de evaluación 2026-2 cerró el 28 de noviembre</b>Ya no se pueden diligenciar ni enviar evaluaciones. Las calificaciones de tu borrador no se enviaron.</div>
+          </div>
+          <div class="alert alert-info" role="status" tabindex="-1" data-state="ya-evaluado">
+            <span aria-hidden="true">ℹ</span>
+            <div><b>Ya evaluaste a este docente en este periodo</b>Solo se permite una evaluación por docente, asignatura y periodo. <a href="#enviada" data-go="enviada">Ver mi comprobante</a></div>
+          </div>
+
+          <!-- Formulario -->
+          <form class="card rubric" id="form" data-state="diligenciando error-obligatorio borrador enviando periodo-cerrado" novalidate>
+            <fieldset id="all" style="border:0;margin:0;padding:0;min-width:0">
+              <legend class="sr-only">Rúbrica de evaluación</legend>
+              <div class="legend-scale">Califica cada ítem de <b>1</b> (muy bajo) a <b>5</b> (excelente). Los ítems con <span class="req">*</span> son obligatorios.</div>
+              <div id="rubric"></div>
+              <div class="comment">
+                <label class="label" for="comentario">Comentarios para el docente (opcional)</label>
+                <textarea class="input" id="comentario" maxlength="1000" aria-describedby="count">Las clases prácticas en el laboratorio fueron muy útiles.</textarea>
+                <div class="help count" id="count">58 / 1000</div>
+              </div>
+              <div class="form-foot">
+                <button type="button" class="btn btn-secondary" id="draft">Guardar borrador</button>
+                <button type="submit" class="btn btn-primary" id="send">
+                  <span class="spinner" data-state="enviando" aria-hidden="true"></span>
+                  <span data-state="diligenciando error-obligatorio borrador periodo-cerrado">Finalizar y enviar</span>
+                  <span data-state="enviando">Enviando…</span>
+                </button>
+              </div>
+            </fieldset>
+          </form>
+
+          <!-- Enviada -->
+          <section class="card done" data-state="enviada" role="status" tabindex="-1" id="done">
+            <div class="big" aria-hidden="true">✓</div>
+            <h2>Evaluación enviada</h2>
+            <p>Tu evaluación de <b>Carlos Restrepo Mejía</b> (Bases de Datos II · Grupo 03) quedó registrada de forma anónima.</p>
+            <dl class="receipt">
+              <dt>Nota</dt><dd><span class="final">3,9</span> / 5,0</dd>
+              <dt>Comprobante</dt><dd>ED-7Q4M-92KX</dd>
+              <dt>Fecha</dt><dd>23/11/2026</dd>
+            </dl>
+            <p class="help" style="margin-top:-8px">Te enviamos el comprobante a tu correo institucional. Guárdalo: es la única forma de solicitar un cambio autorizado.</p>
+            <div class="btns">
+              <button type="button" class="btn btn-secondary">Descargar comprobante (PDF)</button>
+              <button type="button" class="btn btn-primary" data-go="diligenciando">Volver a evaluaciones pendientes</button>
+            </div>
+          </section>
+        </div>
+
+        <!-- ======== Columna derecha ======== -->
+        <aside class="col aside" aria-label="Resumen">
+          <div class="card" data-state="cargando"><div class="sk" style="height:14px;width:50%;margin-bottom:12px"></div><div class="sk" style="height:8px"></div></div>
+          <div class="card" data-state="cargando"><div class="sk" style="height:14px;width:50%;margin-bottom:12px"></div><div class="sk" style="height:30px;width:40%"></div></div>
+
+          <div class="card" data-state="diligenciando error-obligatorio borrador enviando periodo-cerrado enviada">
+            <h3>Tu avance</h3>
+            <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+            <div class="help" aria-live="polite"><span id="done-n">4</span> de <span id="total-n">5</span> ítems calificados · <span id="pct">80</span> %</div>
+          </div>
+
+          <div class="card" data-state="diligenciando error-obligatorio borrador enviando periodo-cerrado enviada">
+            <h3><span data-state="diligenciando error-obligatorio borrador enviando periodo-cerrado">Nota parcial</span><span data-state="enviada">Nota final</span></h3>
+            <div class="grade" aria-live="polite"><span id="grade">3,9</span> <small>/ 5,0</small></div>
+            <div class="help">Se calcula con el peso de cada criterio.</div>
+          </div>
+
+          <div class="card" data-state="diligenciando error-obligatorio borrador enviando periodo-cerrado enviada ya-evaluado">
+            <h3>Mis docentes por evaluar</h3>
+            <ul class="list">
+              <li><span>Carlos Restrepo</span><span class="chip" id="me-chip">En curso</span></li>
+              <li><span>Ana María Torres</span><span class="chip chip-draft">Borrador</span></li>
+              <li><span>Jorge Ospina</span><span class="chip chip-pend">Pendiente</span></li>
+              <li><span>Diana Cárdenas</span><span class="chip chip-ok">Evaluado</span></li>
+            </ul>
+          </div>
+
+          <p class="anon"><span aria-hidden="true">🔒</span>Tu evaluación es anónima. El docente solo ve resultados consolidados.</p>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+// Solo presentación y navegación del mockup; las reglas reales están en la spec 0003.
+const rubrica = [
+  {n:'1. Dominio del tema', w:30, items:['Explica los temas con claridad y seguridad','Resuelve las dudas de los estudiantes']},
+  {n:'2. Metodología', w:40, items:['Usa ejemplos y actividades que ayudan a aprender','Cumple el plan de la asignatura y los horarios']},
+  {n:'3. Evaluación y retroalimentación', w:30, items:['Entrega notas y retroalimentación a tiempo']}
+];
+const parcial = [4,5,4,null,3], completa = [4,5,4,4,3];
+const presets = {
+  diligenciando:     {v:parcial,  chip:['chip-curso','En curso']},
+  'error-obligatorio':{v:parcial, chip:['chip-curso','En curso'], err:true},
+  borrador:          {v:parcial,  chip:['chip-draft','Borrador']},
+  enviando:          {v:completa, chip:['chip-curso','En curso'], busy:true},
+  enviada:           {v:completa, chip:['chip-ok','Evaluado']},
+  'periodo-cerrado': {v:parcial,  chip:['chip-closed','Sin enviar'], busy:true},
+  'ya-evaluado':     {v:completa, chip:['chip-ok','Evaluado']},
+  cargando:          {v:parcial,  chip:['chip-curso','En curso']}
+};
+const $ = s => document.querySelector(s);
+const fmt = n => n.toFixed(1).replace('.', ',');
+
+function render(values){
+  let k = 0;
+  $('#rubric').innerHTML = rubrica.map(c => `
+    <section class="crit" aria-label="${c.n}, ${c.w} por ciento">
+      <div class="crit-head"><h3>${c.n}</h3><span class="weight">${c.w} %</span></div>
+      ${c.items.map(t => { const i = k++; return `
+        <fieldset class="item" id="it${i}" data-i="${i}" aria-describedby="err${i}">
+          <legend>${t} <span class="req" aria-hidden="true">*</span><span class="sr-only">(obligatorio)</span></legend>
+          <div class="scale">${[1,2,3,4,5].map(n => `
+            <label><input type="radio" name="i${i}" value="${n}" ${values[i] === n ? 'checked' : ''} aria-label="${n}"><span aria-hidden="true">${n}</span></label>`).join('')}
+          </div>
+          <div class="err-msg" id="err${i}" hidden>Este ítem es obligatorio</div>
+        </fieldset>`; }).join('')}
+    </section>`).join('');
+}
+function values(){
+  return [...document.querySelectorAll('fieldset.item')].map(f => {
+    const c = f.querySelector('input:checked'); return c ? +c.value : null;
+  });
+}
+function recalc(){
+  const v = values();
+  const done = v.filter(x => x !== null).length, total = v.length;
+  let k = 0, sum = 0, wsum = 0;
+  rubrica.forEach(c => {
+    const vals = c.items.map(() => v[k++]).filter(x => x !== null);
+    if (vals.length){ sum += c.w / 100 * (vals.reduce((a,b) => a + b, 0) / vals.length); wsum += c.w; }
+  });
+  $('#done-n').textContent = done; $('#total-n').textContent = total;
+  const pct = Math.round(done / total * 100);
+  $('#pct').textContent = pct; $('#bar').style.width = pct + '%';
+  const g = sum ? fmt(sum) : '—';
+  $('#grade').textContent = g; document.querySelectorAll('.final').forEach(e => e.textContent = g);
+  return v;
+}
+function markErrors(on){
+  const v = values(); let missing = 0, first = null;
+  document.querySelectorAll('fieldset.item').forEach((f, i) => {
+    const bad = on && v[i] === null;
+    f.classList.toggle('is-error', bad);
+    f.querySelector('.err-msg').hidden = !bad;
+    if (bad){ missing++; first = first || f; }
+  });
+  $('#missing-txt').textContent = `Hay ${missing} ${missing === 1 ? 'ítem obligatorio' : 'ítems obligatorios'} sin calificar`;
+  return {missing, first};
+}
+function show(state){
+  document.querySelectorAll('[data-state]').forEach(el => el.hidden = !el.dataset.state.split(' ').includes(state));
+  document.querySelectorAll('.mk-states [data-go]').forEach(b => b.setAttribute('aria-pressed', b.dataset.go === state));
+  const p = presets[state];
+  $('#me-chip').className = 'chip ' + p.chip[0]; $('#me-chip').textContent = p.chip[1];
+  $('#all').disabled = !!p.busy;
+  history.replaceState(null, '', '#' + state);
+  const a = document.querySelector(`[data-state~="${state}"][tabindex="-1"]`);
+  if (a) a.focus();
+}
+function go(state){
+  render(presets[state].v);
+  recalc();
+  markErrors(!!presets[state].err);
+  show(state);
+}
+
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]');
+  if (g){ e.preventDefault(); go(g.dataset.go); }
+});
+$('#rubric').addEventListener('change', () => {
+  recalc();
+  if (!$('#alert-missing').hidden){
+    const {missing} = markErrors(true);
+    if (!missing) show('diligenciando');
+  }
+});
+$('#comentario').addEventListener('input', e => $('#count').textContent = `${e.target.value.length} / 1000`);
+$('#goto-missing').addEventListener('click', () => {
+  const f = document.querySelector('fieldset.is-error'); if (f){ f.scrollIntoView({block:'center'}); f.querySelector('input').focus(); }
+});
+$('#draft').addEventListener('click', () => { markErrors(false); show('borrador'); });
+$('#form').addEventListener('submit', e => {
+  e.preventDefault();
+  const {missing} = markErrors(true);
+  if (missing){ show('error-obligatorio'); return; }
+  show('enviando');
+  setTimeout(() => { recalc(); show('enviada'); }, 1200);
+});
+
+const start = location.hash.slice(1);
+go(start in presets ? start : 'diligenciando');
+</script>
+</body>
+</html>
