@@ -6,12 +6,9 @@ Documentación de requisitos, arquitectura y diseño de un sistema web para **ev
 > Instituto Tecnológico Metropolitano (ITM) · Medellín, 2026
 > **Estudiantes:** Sebastián Vargas Guarin · Alexander Marín Villa — **Docente:** Enrique José González
 
-| Strategy | ADR | Specs | Mockups | Evidencias |
-|:---:|:---:|:---:|:---:|:---:|
-| 1 estrategia + visión | **14** decisiones de arquitectura | **3** specs · **27** criterios de aceptación · **28** casos borde | **3** pantallas HTML navegables · **24** estados | **28** capturas · **27/27** pruebas que pasan |
-
-> 📄 **PDF de evidencias para la entrega:** [entrega/Proyecto - Evaluacion Docentes - Evidencias.pdf](entrega/Proyecto%20-%20Evaluacion%20Docentes%20-%20Evidencias.pdf)
-> 🖼️ **Galería completa de evidencias:** [docs/05-evidencias](docs/05-evidencias/README.md)
+| Strategy | ADR | Specs | Mockups |
+|:---:|:---:|:---:|:---:|
+| 1 estrategia + visión | **14** decisiones de arquitectura | **3** specs · **27** criterios de aceptación · **28** casos borde | **3** pantallas HTML navegables · **24** estados |
 
 ---
 
@@ -23,10 +20,9 @@ Documentación de requisitos, arquitectura y diseño de un sistema web para **ev
 4. [ADR: decisiones de arquitectura](#4-adr-decisiones-de-arquitectura)
 5. [Specs: funcionalidades al detalle](#5-specs-funcionalidades-al-detalle)
 6. [Mockups: cómo se ve y se navega](#6-mockups-cómo-se-ve-y-se-navega)
-7. [Evidencias: capturas y pruebas](#7-evidencias-capturas-y-pruebas)
-8. [Hallazgos y decisiones abiertas](#8-hallazgos-y-decisiones-abiertas)
-9. [Trazabilidad con las entregas anteriores](#9-trazabilidad-con-las-entregas-anteriores)
-10. [Convenciones para seguir documentando](#10-convenciones-para-seguir-documentando)
+7. [Hallazgos y decisiones abiertas](#7-hallazgos-y-decisiones-abiertas)
+8. [Trazabilidad con las entregas anteriores](#8-trazabilidad-con-las-entregas-anteriores)
+9. [Convenciones para seguir documentando](#9-convenciones-para-seguir-documentando)
 
 ---
 
@@ -74,12 +70,8 @@ docs/
 │   0001 … 0014 · template.md
 ├─ 03-specs/                     una por funcionalidad
 │   0001-iniciar-sesion.md · 0002-crear-rubrica.md · 0003-diligenciar-evaluacion.md · template.md
-├─ 04-mockups/                   HTML autocontenido · mismo número que su spec
-│   0001-iniciar-sesion.html · 0002-crear-rubrica.html · 0003-diligenciar-evaluacion.html · template.md
-└─ 05-evidencias/                capturas, pruebas funcionales y fuente del PDF
-    capturas/ · pruebas-mockups.html · generar-evidencias.sh · informe-evidencias.html
-entrega/
-    Proyecto - Evaluacion Docentes - Evidencias.pdf
+└─ 04-mockups/                   HTML autocontenido · mismo número que su spec
+    0001-iniciar-sesion.html · 0002-crear-rubrica.html · 0003-diligenciar-evaluacion.html · template.md
 ```
 
 | Artefacto | Va aquí | **No** va aquí |
@@ -226,55 +218,12 @@ Son archivos **HTML autocontenidos** (sin dependencias externas). Cada uno tiene
    - `https://sebastianv07.github.io/evaluacion-docentes/docs/04-mockups/0001-iniciar-sesion.html`
    - `https://sebastianv07.github.io/evaluacion-docentes/docs/04-mockups/0002-crear-rubrica.html`
    - `https://sebastianv07.github.io/evaluacion-docentes/docs/04-mockups/0003-diligenciar-evaluacion.html`
-   - Pruebas ejecutándose en vivo: `https://sebastianv07.github.io/evaluacion-docentes/docs/05-evidencias/pruebas-mockups.html`
 
 </details>
 
 ---
 
-## 7. Evidencias: capturas y pruebas
-
-📁 [docs/05-evidencias](docs/05-evidencias/README.md) · 📄 [PDF para la entrega](entrega/Proyecto%20-%20Evaluacion%20Docentes%20-%20Evidencias.pdf)
-
-Todas las evidencias se generaron automáticamente con Chrome en modo headless: **28 capturas** (24 estados de escritorio y 4 vistas móviles) y **27 pruebas funcionales** que simulan al usuario y verifican cada criterio de aceptación. Se regeneran con `bash docs/05-evidencias/generar-evidencias.sh`.
-
-### Pruebas funcionales: 27 de 27 pasan
-
-| Mockup | Pruebas | Pasan | Criterios cubiertos |
-|---|:---:|:---:|---|
-| 0001 · Iniciar sesión | 8 | ✅ 8 | CA1, CA2, CA3, CA4, CA5, CA6 (parcial), CA8 |
-| 0002 · Crear rúbrica | 9 | ✅ 9 | CA1, CA2, CA3, CA4, CA5, CA7, CA9 |
-| 0003 · Diligenciar evaluación | 10 | ✅ 10 | CA1, CA2, CA3, CA4, CA5, CA6 (parcial), CA7 |
-
-De los 27 criterios de aceptación: **19 verificados** en los mockups, **2 parciales** (solo la parte visible) y **6 que dependen del backend** (bitácora real, permisos de la API, persistencia), que se verifican al implementar. El detalle de cada prueba está en [la galería de evidencias](docs/05-evidencias/README.md#1-pruebas-funcionales-27-de-27-pasan).
-
-![Resultados de las pruebas](docs/05-evidencias/capturas/pruebas-resultados.png)
-
-### Capturas principales
-
-| Iniciar sesión — credenciales inválidas (CA3) | Crear rúbrica — no suma 100 % (CA3, CA7) |
-|:---:|:---:|
-| ![](docs/05-evidencias/capturas/0001-error.png) | ![](docs/05-evidencias/capturas/0002-error-suma.png) |
-| **Evaluación — ítem obligatorio sin calificar (CA3)** | **Evaluación — enviada con comprobante (CA2)** |
-| ![](docs/05-evidencias/capturas/0003-error-obligatorio.png) | ![](docs/05-evidencias/capturas/0003-enviada.png) |
-
-| Móvil · Inicio de sesión | Móvil · Crear rúbrica | Móvil · Evaluación |
-|:---:|:---:|:---:|
-| ![](docs/05-evidencias/capturas/movil-0001-error.png) | ![](docs/05-evidencias/capturas/movil-0002-error-suma.png) | ![](docs/05-evidencias/capturas/movil-0003-error-obligatorio.png) |
-
-Los 24 estados están en la [galería completa](docs/05-evidencias/README.md).
-
-### Defectos que encontraron las pruebas
-
-| Defecto | Corrección |
-|---|---|
-| En la alerta de 0002, el título y el texto salían pegados. | El título pasa a su propia línea. |
-| La nota podía mostrarse como 3,8 en vez de 3,9 (imprecisión de punto flotante al redondear 3,85). | Redondeo explícito; la prueba 19 lo confirma. |
-| La ponderación vacía no quedaba marcada en rojo al validar. | Se marcan todos los campos vacíos; la prueba 14 lo confirma. |
-
----
-
-## 8. Hallazgos y decisiones abiertas
+## 7. Hallazgos y decisiones abiertas
 
 Al armar la documentación aparecieron puntos que no estaban resueltos en las entregas anteriores:
 
@@ -290,7 +239,7 @@ Al armar la documentación aparecieron puntos que no estaban resueltos en las en
 
 ---
 
-## 9. Trazabilidad con las entregas anteriores
+## 8. Trazabilidad con las entregas anteriores
 
 Todo lo de esta documentación sale de las actividades anteriores del curso:
 
@@ -307,7 +256,7 @@ Todo lo de esta documentación sale de las actividades anteriores del curso:
 
 ---
 
-## 10. Convenciones para seguir documentando
+## 9. Convenciones para seguir documentando
 
 - **Carpetas numeradas** 01 → 04, de lo general a lo detallado.
 - **ADR:** `NNNN-titulo.md`, consecutivo global. **No se editan**: si una decisión cambia, se crea uno nuevo y el anterior se marca *Superado por ADR-NNNN*.
