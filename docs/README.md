@@ -23,11 +23,15 @@ docs/
 │   0001-iniciar-sesion.md
 │   0002-crear-rubrica.md
 │   0003-diligenciar-evaluacion.md · template.md
-└─ 04-mockups/         (HTML autocontenido y navegable · mismo nº que su spec)
-    0001-iniciar-sesion.html
-    0002-crear-rubrica.html
-    0003-diligenciar-evaluacion.html · template.md
+├─ 04-mockups/         (HTML autocontenido y navegable · mismo nº que su spec)
+│   0001-iniciar-sesion.html
+│   0002-crear-rubrica.html
+│   0003-diligenciar-evaluacion.html · template.md
+└─ 05-evidencias/      (capturas, pruebas funcionales y fuente del PDF de entrega)
+    README.md · capturas/ · pruebas-mockups.html · generar-evidencias.sh · informe-evidencias.html
 ```
+
+Las evidencias (28 capturas y 27 pruebas funcionales, todas pasan) están en [05-evidencias/](05-evidencias/README.md).
 
 ## Convenciones
 
